@@ -1,3 +1,22 @@
+function videoPlay(id) {
+  const url = `https://www.youtube.com/embed/${id}?autoplay=1`;
+  console.log('the video is playing on url : ' + url);
+}
+function videoStop(id) {
+  console.log('the video is stopped');
+}
+export class protytpeClass {
+  constructor({ name, videoID }) {
+    this.name = name;
+    this.videoID = videoID;
+  }
+  play() {
+    videoPlay(this.videoID);
+  }
+  stop() {
+    videoStop(this.videoID);
+  }
+}
 const juan = {
   name: 'Juan',
   age: 22,
@@ -116,17 +135,69 @@ class learningPathsClass {
     this.courses = courses;
   }
 }
-const webDevelopment = new learningPathsClass('Web Developer', [
-  'HTML',
-  'CSS',
-  'JavaScript',
-  'React',
-  'NodeJS',
-]);
+
+// class Course {
+//   constructor({ name, classes = [] }) {
+//     this.name = name;
+//     this.classes = classes;
+//   }
+// }
+
+//Encapsulation
+class Course {
+  constructor({ name, classes = [] }) {
+    this._name = name; //Convention for private variables
+    this.classes = classes;
+  }
+  get name() {
+    return this._name;
+  }
+  set name(value) {
+    if (value.length > 12) {
+      this._name = value;
+    } else {
+      console.error('Name must be at least 12 characters');
+    }
+  }
+}
+
+class Classes {
+  constructor({
+    name,
+    description,
+    startDate,
+    endDate,
+    students = [],
+    teachers = [],
+  }) {
+    this.name = name;
+    this.description = description;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.students = students;
+    this.teachers = teachers;
+  }
+}
+const CS50 = new Course({
+  name: 'CS50',
+});
+const webDevelopment = new learningPathsClass({
+  name: 'Web Developer',
+  courses: ['HTML', 'CSS', 'JavaScript', 'React', 'NodeJS'],
+});
+const dataScience = new learningPathsClass({
+  name: 'Data sciene',
+  courses: ['Buisness Intelligence', 'DataViz'],
+});
+const gameDevelompent = new learningPathsClass({
+  name: 'Game Developer',
+  courses: ['Unity', 'C#', 'C++', 'Game Development'],
+});
 
 const juan_2 = new StudentClass_3({
   name: 'Juan',
   username: 'jfuentes_code',
   email: 'juan_fuentes@avocadosnetwork.com',
   twitter: '@jfuentes_code',
+  learningPaths: [webDevelopment, dataScience, gameDevelompent],
 });
