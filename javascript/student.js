@@ -11,6 +11,7 @@ class Comment {
     console.log(this.content);
   }
 }
+
 class Course {
   constructor({ name, classes = [] }) {
     this._name = name; //Convention for private variables
