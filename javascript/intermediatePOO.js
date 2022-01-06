@@ -49,3 +49,56 @@ const obj4 = Object.create(obj1);
 
 const strObj1 = JSON.stringify(obj1); //convert object to string
 const ObjStr1 = JSON.parse(strObj1); //convert string to object
+
+const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let num = 0;
+function nonRecursiveFunction(obj) {
+  for (let index = 0; i < nums.length; i++) {
+    // num += index;
+    num = nums[index];
+    console.log(index, num);
+  }
+}
+//recursive function
+function RecursiveFunction(nums) {
+  if (nums.length > 0) {
+    const firstNumber = nums[0];
+    console.log(firstNumber);
+    nums.shift();
+    return RecursiveFunction(nums);
+  }
+}
+function isObject(subject) {
+  return typeof subject === 'object' && subject !== null;
+}
+function isArray(subject) {
+  return Array.isArray(subject);
+}
+//deep copy
+function deepCopy(subject) {
+  let copyCat;
+  const subjectisArray = isArray(subject);
+  const subjectisObject = isObject(subject);
+  if (subjectisArray) {
+    copyCat = [];
+  } else if (subjectisObject) {
+    copyCat = {};
+  } else {
+    return subject;
+  }
+  for (let key in subject) {
+    let keyisObject = isObject(subject[key]);
+    let keyisArray = isArray(subject[key]);
+    if (keyisObject) {
+      copyCat[key] = deepCopy(subject[key]);
+    } else {
+      if (subjectisArray) {
+        copyCat.push(deepCopy(subject[key]));
+      } else {
+        copyCat[key] = subject[key];
+      }
+    }
+  }
+  // subjectisArray ? (copyCat = []) : (copyCat = {});
+  return copyCat;
+}
