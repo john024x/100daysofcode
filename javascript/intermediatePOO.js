@@ -29,3 +29,23 @@ Object.defineProperty(juan, 'prueba', {
 
 Object.seal(juan); //prevents the deletion of properties and prevents the modification of existing properties
 Object.freeze(juan); //all properties are non-writable and non-configurable
+
+const obj1 = {
+  name: 'juan',
+  age: '22',
+  approvedCourses: {
+    courses: ['JavaScript', 'React', 'NodeJSX'],
+  },
+};
+
+//shallow copy
+const obj2 = {};
+for (prop in obj1) {
+  obj2[prop] = obj1[prop];
+}
+
+const obj3 = Object.assign({}, obj1);
+const obj4 = Object.create(obj1);
+
+const strObj1 = JSON.stringify(obj1); //convert object to string
+const ObjStr1 = JSON.parse(strObj1); //convert string to object
