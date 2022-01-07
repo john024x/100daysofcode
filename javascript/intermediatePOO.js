@@ -128,6 +128,30 @@ Object.isSealed(juan); // check if object is sealed
 function requeriedParms(param) {
   throw new Error('Missing required parameters: ' + param);
 }
+function createLearningPath({ name = requeriedParms('name'), courses = [] }) {
+  const private = {
+    _name: name,
+    _courses: courses,
+  };
+  const public = {
+    get name() {
+      return private._name;
+    },
+    set name(newName) {
+      if (newName.length < 1) {
+        private._name = newName;
+      } else {
+        throw new Error('Name must be at least 1 character');
+      }
+      return private._name;
+    },
+    get courses() {
+      return private._courses;
+    },
+  };
+  return public;
+}
+
 function createStudent({
   name = requeriedParms('name'),
   age,
@@ -138,16 +162,60 @@ function createStudent({
   approvedCourses = [],
   learningPaths = [],
 } = {}) {
-  return {
-    name,
+  const private = {
+    _name: name,
+    _learningPaths: learningPaths,
+  };
+  const public = {
     age,
     email,
     approvedCourses,
-    learningPaths,
     socialMedia: {
       twitter,
       facebook,
       instagram,
     },
+    get name() {
+      return private._name;
+    },
+    set name(newName) {
+      if (newName.length < 1) {
+        private._name = newName;
+      } else {
+        throw new Error('Name must be at least 1 character');
+      }
+      return private._name;
+    },
+    get learningPaths() {
+      return private._name;
+    },
+    set learningPaths(newNameLP) {
+      if (!newNameLP.name) {
+        throw new Error('Name must have a name');
+        return;
+      }
+      if (!newNameLP.courses) {
+        throw new Error('Name must have a name of courses');
+        return;
+      }
+      if (!isArray.courses) {
+        throw new Error('Name must have a course in arrays');
+        return;
+      }
+      private._learningPaths.push(newNameLP);
+    },
+    // changeName(newName) {
+    //   private._name = newName;
+    // },
+    // readName() {
+    //   return private._name;
+    // },
   };
+  Object.defineProperty(public, 'readName', {
+    configurable: false, // prevents the modification of the property
+  });
+  Object.defineProperty(public, 'changeName', {
+    configurable: false, // prevents the modification of the property
+  });
+  return public;
 }
