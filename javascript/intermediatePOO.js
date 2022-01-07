@@ -102,3 +102,52 @@ function deepCopy(subject) {
   // subjectisArray ? (copyCat = []) : (copyCat = {});
   return copyCat;
 }
+
+const StudentBase = {
+  name: undefined,
+  email: undefined,
+  age: undefined,
+  approvedCourses: undefined,
+  learningPaths: undefined,
+  socialMedia: {
+    twitter: undefined,
+    facebook: undefined,
+    instagram: undefined,
+  },
+};
+
+const juan = deepCopy(StudentBase);
+Object.seal(juan);
+Object.isSealed(juan); // check if object is sealed
+// Object.defineProperty(juan, 'name', {
+//   value: 'juan',
+//   configurable: false,
+// });
+
+//Fabric pattern & RORO pattern
+function requeriedParms(param) {
+  throw new Error('Missing required parameters: ' + param);
+}
+function createStudent({
+  name = requeriedParms('name'),
+  age,
+  email = requeriedParms('email'),
+  twitter,
+  facebook,
+  instagram,
+  approvedCourses = [],
+  learningPaths = [],
+} = {}) {
+  return {
+    name,
+    age,
+    email,
+    approvedCourses,
+    learningPaths,
+    socialMedia: {
+      twitter,
+      facebook,
+      instagram,
+    },
+  };
+}
