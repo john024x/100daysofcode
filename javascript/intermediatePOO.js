@@ -125,9 +125,11 @@ Object.isSealed(juan); // check if object is sealed
 // });
 
 //Fabric pattern & RORO pattern
+
 function requeriedParms(param) {
   throw new Error('Missing required parameters: ' + param);
 }
+
 function createLearningPath({ name = requeriedParms('name'), courses = [] }) {
   const private = {
     _name: name,
