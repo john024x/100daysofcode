@@ -74,6 +74,42 @@ function isObject(subject) {
 function isArray(subject) {
   return Array.isArray(subject);
 }
+class SuperObject {
+  static isArray(subject) {
+    return Array.isArray(subject);
+  }
+  static isObject(subject) {
+    return typeof subject === 'object' && subject !== null;
+  }
+
+  static deepCopy() {
+    let copyCat;
+    const subjectisArray = isArray(subject);
+    const subjectisObject = isObject(subject);
+    if (subjectisArray) {
+      copyCat = [];
+    } else if (subjectisObject) {
+      copyCat = {};
+    } else {
+      return subject;
+    }
+    for (let key in subject) {
+      let keyisObject = isObject(subject[key]);
+      let keyisArray = isArray(subject[key]);
+      if (keyisObject) {
+        copyCat[key] = deepCopy(subject[key]);
+      } else {
+        if (subjectisArray) {
+          copyCat.push(deepCopy(subject[key]));
+        } else {
+          copyCat[key] = subject[key];
+        }
+      }
+    }
+    // subjectisArray ? (copyCat = []) : (copyCat = {});
+    return copyCat;
+  }
+}
 //deep copy
 function deepCopy(subject) {
   let copyCat;
@@ -221,3 +257,47 @@ function createStudent({
   });
   return public;
 }
+
+function LearningPath({ name = requeriedParms('name'), courses = [] }) {
+  this.name = name;
+  this.courses = courses;
+  return public;
+}
+function Student({
+  name = requeriedParms('name'),
+  age,
+  email = requeriedParms('email'),
+  twitter,
+  facebook,
+  instagram,
+  approvedCourses = [],
+  learningPaths = [],
+} = {}) {
+  if (!isArray(learningPaths)) {
+    console.warning('learningPaths must be an array');
+  }
+  if (learningPaths in learningPaths) {
+    if (!LearningPath instanceof LearningPath) {
+      console.log('learningPaths must be an instance of LearningPath');
+      return;
+    }
+  }
+  this.name = name;
+  this.age = age;
+  this.email = email;
+  this.approvedCourses = approvedCourses;
+  this.learningPaths = learningPaths;
+  this.facebook = facebook;
+  this.twitter = twitter;
+  this.instagram = instagram;
+  return public;
+}
+const juan_instance = new Student({
+  name: 'juan',
+  age: '23',
+  email: 'juan_fuentes99',
+  twitter: 'juan_fuentes99',
+  facebook: 'juan_fuentes99',
+  instagram: 'juan_fuentes99',
+  approvedCourses: ['course1', 'course2'],
+});
